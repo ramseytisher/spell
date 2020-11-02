@@ -177,6 +177,10 @@ const IndexPage = () => {
                       name="studentAnswer"
                       placeholder="Enter answer here"
                       value={entered}
+                      autocomplete="off"
+                      autocorrect="off"
+                      autocapitalize="off"
+                      spellcheck="false"
                     />
                   </FormField>
                   <Box direction="row" gap="medium">
