@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
     title: `spelld.it`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    description: `The worlds best spelling test app!`,
+    author: `@ramseytisher`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
