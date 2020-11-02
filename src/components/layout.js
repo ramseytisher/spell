@@ -38,7 +38,7 @@ const Layout = ({ children }) => {
         <main>{children}</main>
         <footer>
           <Box align="center">
-          <Text>designed by Colton 💩💩💩</Text>
+          <Text>designed by Colton 💩🤡💩</Text>
           <Text>built by Dad 💪</Text>
           </Box>
         </footer>
