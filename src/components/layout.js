@@ -9,7 +9,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { useStaticQuery, graphql } from "gatsby"
 
-import { Grommet, Text } from "grommet"
+import { Grommet, Text, Box } from "grommet"
 
 import Header from "./header"
 import "./layout.css"
@@ -36,12 +36,11 @@ const Layout = ({ children }) => {
         }}
       >
         <main>{children}</main>
-        <footer
-          style={{
-            marginTop: `2rem`,
-          }}
-        >
+        <footer>
+          <Box align="center">
           <Text>designed by Colton 💩</Text>
+          <Text>built by Dad 💪</Text>
+          </Box>
         </footer>
       </div>
     </Grommet>
