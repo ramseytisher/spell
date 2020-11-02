@@ -109,7 +109,7 @@ const IndexPage = () => {
         <Button label="Reset" onClick={handleReset} />
       </Box>
       {playing ? (
-        <Box elevation="medium" pad="medium" margin="medium">
+        <Box elevation="medium" pad="medium" margin="medium" gap="small">
           {done ? (
             <Box align="center">
               <h1>You've completed all words!</h1>
@@ -152,54 +152,56 @@ const IndexPage = () => {
               )}
             </Box>
           ) : (
-            <Box
-              direction="row-responsive"
-              gap="medium"
-              align="center"
-              justify="center"
-            >
-              <Button
-                label={`Play Word`}
-                icon={<Play />}
-                onClick={() => say(item.answer)}
-                color="accent-1"
-              />
-              <Form
-                value={entered}
-                onChange={nextValue => setEntered(nextValue)}
-                onReset={() => setEntered("")}
-                onSubmit={() => handleUpdate(item.key)}
+            <Box>
+              <Box
+                direction="row-responsive"
+                gap="medium"
+                align="center"
+                justify="center"
               >
-                <FormField name="name" htmlfor="text-input-id">
-                  <TextInput
-                    id="text-input-id"
-                    name="studentAnswer"
-                    placeholder="Enter answer here"
-                    value={entered}
-                  />
-                </FormField>
-                <Box direction="row" gap="medium">
-                  <Button type="submit" primary label="Submit" />
-                </Box>
-              </Form>
+                <Button
+                  label={`Play Word`}
+                  icon={<Play />}
+                  onClick={() => say(item.answer)}
+                  color="accent-1"
+                />
+                <Form
+                  value={entered}
+                  onChange={nextValue => setEntered(nextValue)}
+                  onReset={() => setEntered("")}
+                  onSubmit={() => handleUpdate(item.key)}
+                >
+                  <FormField name="name" htmlfor="text-input-id">
+                    <TextInput
+                      id="text-input-id"
+                      name="studentAnswer"
+                      placeholder="Enter answer here"
+                      value={entered}
+                    />
+                  </FormField>
+                  <Box direction="row" gap="medium">
+                    <Button type="submit" primary label="Submit" />
+                  </Box>
+                </Form>
+              </Box>
             </Box>
           )}
-          <Box gap="small" fill align="center" margin="medium">
-            <Text>Progress {score}</Text>
-            <Meter
-              values={[
-                {
-                  value: test.filter(item => item.entered).length,
-                  color: "#ffc600",
-                },
-                {
-                  value: test.filter(item => !item.entered).length,
-                  color: "light-2",
-                },
-              ]}
-              aria-label="meter"
-            />
-          </Box>
+          <Meter
+            fill
+            values={[
+              {
+                value: test.filter(item => item.entered).length,
+                color: "#ffc600",
+              },
+              {
+                value: test.filter(item => !item.entered).length,
+                color: "light-2",
+              },
+            ]}
+            aria-label="meter"
+            width="fill"
+          />
+          <Box gap="small" fill align="center" margin="medium"></Box>
           <Box>
             {test.map(
               item =>
