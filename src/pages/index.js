@@ -20,7 +20,7 @@ import Image from "../components/image"
 import SEO from "../components/seo"
 
 const IndexPage = () => {
-  const initialWords = ["impassable", "avid", "devour"]
+  const initialWords = ["entertaining", "promote", "focus", "advertise", "jolts", "critics", "target", "thrilling", "angles", "generated"]
 
   const [playing, setPlaying] = useState(false)
   const [word, setWord] = useState("")
