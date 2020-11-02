@@ -1,43 +1,19 @@
-import { Link } from "gatsby"
-import PropTypes from "prop-types"
 import React from "react"
 
+import { Box, Heading, Text } from "grommet"
+import styled from "styled-components"
+
+const ColoredHeading = styled(Heading)`
+  color: #1d6cd2;
+`
+
 const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        {`Welcome to `}
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
-    </div>
+  <header>
+    <Box direction="row" pad="medium" align="end" justify="center" gap="xsmall">
+      <Heading level={2}>Welcome to</Heading>
+      <ColoredHeading>{siteTitle}</ColoredHeading>
+    </Box>
   </header>
 )
-
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
-
-Header.defaultProps = {
-  siteTitle: ``,
-}
 
 export default Header

@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from "react"
 import { Link } from "gatsby"
 
-import { Box, Form, Button, FormField, TextInput, List } from "grommet"
+import {
+  Box,
+  Form,
+  Button,
+  FormField,
+  TextInput,
+  List,
+  Heading,
+  Text,
+  Meter,
+  Layer,
+} from "grommet"
+import { Play, Close, Restroom } from "grommet-icons"
 
 import Layout from "../components/layout"
 import Image from "../components/image"
@@ -18,6 +30,8 @@ const IndexPage = () => {
   const [test, setTest] = useState(buildTest)
   const [item, setItem] = useState(getTestItem)
   const [done, setDone] = useState(false)
+  const [show, setShow] = useState(false)
+  const [score, setScore] = useState(0)
 
   function say(message) {
     var msg = new SpeechSynthesisUtterance()
@@ -38,11 +52,24 @@ const IndexPage = () => {
 
   useEffect(() => {
     setItem(getTestItem)
+    setScore(gradeTest)
   }, [test])
 
   useEffect(() => {
     setTest(buildTest)
   }, [playing])
+
+  function gradeTest() {
+    let score = 0
+    test.forEach(item => {
+      if (item.entered) {
+        if (item.entered === item.answer) {
+          score++
+        }
+      }
+    })
+    return score
+  }
 
   function getTestItem() {
     let testItems = test.filter(item => {
@@ -56,14 +83,6 @@ const IndexPage = () => {
     }
   }
 
-  // function saveStudentAnswer(entered) {
-  //   let updateTest = [...test]
-  //   updateTest[item.key] = item
-  //   console.log("Updated Test", updateTest)
-  //   setTest(updateTest)
-  //   // setItem({...item, studentAnswer: v.studentAnswer})
-  // }
-
   function handleUpdate(id) {
     const newTest = [...test]
     setTest(
@@ -71,54 +90,141 @@ const IndexPage = () => {
         el.key === id ? { ...el, entered: entered.studentAnswer } : el
       )
     )
+    setEntered("")
+  }
+
+  function handleReset() {
+    setTest(buildTest)
+    setDone(false)
   }
 
   return (
     <Layout>
       <SEO title="Home" />
-      <Box>
+      <Box direction="row" gap="medium" justify="center">
         <Button
-          label={playing ? "Stop" : "Start"}
+          label={playing ? "Stop Test" : "Start Test"}
           onClick={() => setPlaying(!playing)}
         />
+        <Button label="Reset" onClick={handleReset} />
       </Box>
       {playing ? (
-        <Box>
+        <Box elevation="medium" pad="medium" margin="medium">
           {done ? (
-            <h1>Done</h1>
+            <Box align="center">
+              <h1>You've completed all words!</h1>
+              <Button label="Get Score" onClick={() => setShow(true)} />
+              {show && (
+                <Layer
+                  onEsc={() => setShow(false)}
+                  onClickOutside={() => setShow(false)}
+                  position="bottom"
+                  full="horizontal"
+                >
+                  <Box pad="large">
+                    <Box direction="row" justify="between">
+                      <Box align="center">
+                        <Heading>{`You got a ${score} out of ${test.length}`}</Heading>
+                      </Box>
+                      <Button icon={<Close />} onClick={() => setShow(false)} />
+                    </Box>
+                    {score === 0 && (
+                      <Box
+                        direction="row"
+                        align="center"
+                        justify="center"
+                        background="#ffc600"
+                        pad="small"
+                        round="xsmall"
+                        margin="medium"
+                      >
+                        <Restroom size="large" color="dark-1" />
+                        <Text size="large" color="dark-1">
+                          You may as well just flush this one down the toilet
+                        </Text>
+                      </Box>
+                    )}
+                    <Box>
+                      <pre>{JSON.stringify(test, null, 2)}</pre>
+                    </Box>
+                  </Box>
+                </Layer>
+              )}
+            </Box>
           ) : (
-            <Form
-              value={entered}
-              onChange={nextValue => setEntered(nextValue)}
-              onReset={() => setEntered("")}
-              onSubmit={
-                // setTest(test => [...test, entered])
-                // setItem({ ...item, studentAnswer: entered.studentAnswer })
-                // setTest({ ...test, item})
-                // setEntered("")
-                // getTestItem()
-                // saveStudentAnswer()
-                () => handleUpdate(item.key)
-              }
+            <Box
+              direction="row-responsive"
+              gap="medium"
+              align="center"
+              justify="center"
             >
-              <FormField name="name" htmlfor="text-input-id" label="Enter Word">
-                <TextInput
-                  id="text-input-id"
-                  name="studentAnswer"
-                  value={entered}
-                />
-              </FormField>
-              <Box direction="row" gap="medium">
-                <Button label="Play" onClick={() => say(item.answer)} />
-                <Button type="reset" label="Reset" />
-                <Button type="submit" primary label="Submit" />
-              </Box>
-            </Form>
+              <Button
+                label={`Play Word`}
+                icon={<Play />}
+                onClick={() => say(item.answer)}
+                color="accent-1"
+              />
+              <Form
+                value={entered}
+                onChange={nextValue => setEntered(nextValue)}
+                onReset={() => setEntered("")}
+                onSubmit={() => handleUpdate(item.key)}
+              >
+                <FormField name="name" htmlfor="text-input-id">
+                  <TextInput
+                    id="text-input-id"
+                    name="studentAnswer"
+                    placeholder="Enter answer here"
+                    value={entered}
+                  />
+                </FormField>
+                <Box direction="row" gap="medium">
+                  <Button type="submit" primary label="Submit" />
+                </Box>
+              </Form>
+            </Box>
           )}
-          <pre>{JSON.stringify(test, null, 2)}</pre>
+          <Box gap="small" fill align="center" margin="medium">
+            <Text>Progress {score}</Text>
+            <Meter
+              values={[
+                {
+                  value: test.filter(item => item.entered).length,
+                  color: "#ffc600",
+                },
+                {
+                  value: test.filter(item => !item.entered).length,
+                  color: "light-2",
+                },
+              ]}
+              aria-label="meter"
+            />
+          </Box>
+          <Box>
+            {test.map(
+              item =>
+                item.entered && (
+                  <Box
+                    direction="row"
+                    elevation="small"
+                    margin="small"
+                    pad="medium"
+                    justify="between"
+                  >
+                    <Text>{item.entered}</Text>
+                    <Button
+                      label={`Play Word`}
+                      icon={<Play />}
+                      onClick={() => say(item.answer)}
+                      color="accent-1"
+                    />
+                  </Box>
+                )
+            )}
+          </Box>
         </Box>
       ) : (
-        <Box>
+        <Box elevation="small" pad="medium" margin="medium">
           <Form
             value={word}
             onChange={nextValue => setWord(nextValue.word)}
@@ -128,8 +234,13 @@ const IndexPage = () => {
               setWord("")
             }}
           >
-            <FormField name="name" htmlfor="text-input-id" label="Enter Word">
-              <TextInput id="text-input-id" name="word" value={word} />
+            <FormField name="name" htmlfor="text-input-id">
+              <TextInput
+                id="text-input-id"
+                placeholder="Enter word here to add"
+                name="word"
+                value={word}
+              />
             </FormField>
             <Box direction="row" gap="medium">
               <Button type="submit" primary label="Add" />
@@ -139,7 +250,6 @@ const IndexPage = () => {
           <List data={words} />
         </Box>
       )}
-      <Link to="/page-2/">Go to page 2</Link> <br />
     </Layout>
   )
 }

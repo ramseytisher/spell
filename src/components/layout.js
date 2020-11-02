@@ -26,7 +26,7 @@ const Layout = ({ children }) => {
   `)
 
   return (
-    <Grommet plain>
+    <Grommet theme={{ global: { colors: { brand: "#1d6cd2" } } }}>
       <Header siteTitle={data.site.siteMetadata?.title || `Title`} />
       <div
         style={{
@@ -41,7 +41,7 @@ const Layout = ({ children }) => {
             marginTop: `2rem`,
           }}
         >
-          <Text>designed by Colton</Text>
+          <Text>designed by Colton 💩</Text>
         </footer>
       </div>
     </Grommet>
