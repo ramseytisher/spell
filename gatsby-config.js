@@ -22,6 +22,14 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
+      resolve: 'gatsby-plugin-web-font-loader',
+      options: {
+        google: {
+          families: ['Droid Sans', 'Droid Serif']
+        }
+      }
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `spelld.it`,

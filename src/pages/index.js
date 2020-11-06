@@ -20,7 +20,18 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 const IndexPage = () => {
-  const initialWords = ["entertaining", "promote", "focus", "advertise", "jolts", "critics", "target", "thrilling", "angles", "generated"]
+  const initialWords = [
+    "entertaining",
+    "promote",
+    "focus",
+    "advertise",
+    "jolts",
+    "critics",
+    "target",
+    "thrilling",
+    "angles",
+    "generated",
+  ]
 
   const [playing, setPlaying] = useState(false)
   const [word, setWord] = useState("")
@@ -171,7 +182,10 @@ const IndexPage = () => {
                   onReset={() => setEntered("")}
                   onSubmit={() => handleUpdate(item.key)}
                 >
-                  <FormField name="name" htmlfor="text-input-id">
+                  <FormField
+                    name="name"
+                    htmlfor="text-input-id"
+                  >
                     <TextInput
                       id="text-input-id"
                       name="studentAnswer"
