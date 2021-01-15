@@ -21,16 +21,17 @@ import SEO from "../components/seo"
 
 const IndexPage = () => {
   const initialWords = [
-    "entertaining",
-    "promote",
-    "focus",
-    "advertise",
-    "jolts",
-    "critics",
-    "target",
-    "thrilling",
-    "angles",
-    "generated",
+    "trembles",
+    "wreckage",
+    "slab",
+    "possessions",
+    "tenement",
+    "crushing",
+    "rubble",
+    "debris",
+    "timbers",
+    "constructed",
+    "Colton farted"
   ]
 
   const [playing, setPlaying] = useState(false)
